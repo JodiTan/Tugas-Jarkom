@@ -22,7 +22,10 @@ def threaded_client(connection):
         if not data:
             break
         connection.sendall(str.encode(reply))
+        connection.se
     connection.close()
+
+#start = 0
 
 while True:
     Client, address = ServerSocket.accept()
@@ -30,4 +33,15 @@ while True:
     start_new_thread(threaded_client, (Client, ))
     ThreadCount += 1
     print('Thread Number: ' + str(ThreadCount))
+#    check = input('Start ? (y/n) : ')
+#    if(check == 'y'):
+#        connection.
+#       start = 1
+#        break
+
+#soal = 1
+#if(start == 1):
+#    question = 'Pertanyaan 1 : blablablablabla\\ a. a \\b. b \\c. c \\d. d'
+#    connection.send(quesntion[soal].encode())
+#    soal = soal+1
 ServerSocket.close()
