@@ -1,6 +1,7 @@
 import socket
 import _thread
 import threading
+import time
 
 players = []
 message = ''
@@ -9,7 +10,6 @@ jawaban = ['a', 'c', 'b', 'd', 'c']
 jawabanBenarCepat = 'Jawaban Anda benar!'
 jawabanBenarTidakCepat = 'Jawaban Anda benar namun Anda kurang cepat!'
 jawabanSalah = 'Jawaban Anda Salah!'
-tambahScore = 'Skor Anda bertambah 1!'
 
 def threadPlayer():
     while True:
@@ -17,7 +17,7 @@ def threadPlayer():
         global message
         connection, address = socketServer.accept()
         namaPlayer = connection.recv(1024).decode()
-        connection.send(('Selamat datang ' + namaPlayer + '\nWaktu anda menjawab adalah 10 detik. \nAnda hanya perlu menilai A atau B dan seterusnya').encode())
+        connection.send(('Selamat datang ' + namaPlayer + '\nWaktu anda menjawab adalah 10 detik! \nAnda hanya perlu menjawab A atau B atau C atau D.').encode())
         if(message == 'mulai'):
             break
         print('User ' + namaPlayer + ' telah bergabung')
@@ -28,6 +28,8 @@ def threadPlayer():
              'address': address
         }
         players.append(player)
+
+
 
 host = socket.gethostname()
 port = 8888
@@ -45,22 +47,30 @@ for nomor in range(0, soal.__len__()):
         connection.send(soal[nomor].encode())
     playerBenar = ''
     tercepat = 1000
-    timer = threading.Timer(10,()) 
-    timer.start()
+    tempUser = []
+    tempJawaban = []
+    tempWaktu = []
     for j in players:
-        jawaban = connection.recv(1024).decode()
-        waktu = connection.recv(1024).decode()
-        if(jawaban.lower() == jawaban[nomor]):
-            if(float(waktu) < float(tercepat)):
-                playerBenar = j['nama']
-                tercepat = float(waktu)
-                connection.send(jawabanBenarCepat.encode())
-            else:
-                connection.send(jawabanBenarTidakCepat.encode())
-        else:
-            connection.send(jawabanSalah.encode())
+        namaUser = connection.recv(1024).decode()
+        print(namaUser)
+        temp =  namaUser.split()
+      #  jawabanUser = connection.recv(1024).decode()
+     #   print(jawabanUser)
+     #   selisihWaktu = connection.recv(1024).decode()
+      #  print(selisihWaktu)
+        tempUser.append(temp[0])
+        tempJawaban.append(temp[1])
+        tempWaktu.append(temp[2])
+    for h in range(0,jawaban):
+        if(tempJawaban[h].lower() == jawaban[nomor]):
+            if(float(tempWaktu[h]) < float(tercepat)):
+                playerBenar = tempUser[h]
+                tercepat = float(tempWaktu[h])
+    connection.send(('User yang mendapatkan poin adalah user' + playerBenar).encode())
+
     for k in players:
         if(k['nama'] == playerBenar):
+            print(k['nama'])
             k['score'] += 1
         
 
