@@ -1,21 +1,33 @@
 
 import socket
+import threading
+import time
 
-ClientSocket = socket.socket()
-host = '127.0.0.1'
-port = 1233
 
-print('Waiting for connection')
-try:
-    ClientSocket.connect((host, port))
-except socket.error as e:
-    print(str(e))
+host = socket.gethostname()
+port = 8888
 
-Response = ClientSocket.recv(1024)
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+clientSocket.connect((host,port))
+
+nama = input('Masukkan Nama : ')
+clientSocket.send(nama.encode())
+print(clientSocket.recv(1024).decode())
+
 while True:
-    Input = input('Say Something: ')
-    ClientSocket.send(str.encode(Input))
-    Response = ClientSocket.recv(1024)
-    print(Response.decode('utf-8'))
-
-ClientSocket.close()
+    timer = threading.Timer(10,()) 
+    pertanyaan = clientSocket.recv(1024).decode()
+    print(pertanyaan)
+    waktuAwal = time.time()
+    timer.start()
+    jawaban = input('Jawaban Anda : ')
+  #  while(timer.isAlive()):
+    clientSocket.send(jawaban.encode())
+    waktuAkhir = time.time()
+    waktuMenjawab = waktuAkhir - waktuAwal
+    clientSocket.send(str(waktuMenjawab).encode())
+    #timer.cancel()
+    
+    hasil = clientSocket.recv(1024).decode()
+    print(hasil)
