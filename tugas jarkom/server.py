@@ -1,11 +1,12 @@
+# Nama : Jodi Tanato - 2017730037
+# Nama : Harry Senjaya Darmawan - 2017730067
 import socket
 import _thread
 import time
 
 players = []
 message = ''
-#   , '2 + 2 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '1 + 2 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '1 + 4 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '1 + 3 = \nA. 2 \nB. 3 \nC. 4 \nD. 5'
-soal = ['1 + 1 = \nA. 2 \nB. 3 \nC. 4 \nD. 5']
+soal = ['1 + 1 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '2 + 2 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '1 + 2 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '1 + 4 = \nA. 2 \nB. 3 \nC. 4 \nD. 5', '1 + 3 = \nA. 2 \nB. 3 \nC. 4 \nD. 5']
 jawaban = ['a', 'c', 'b', 'd', 'c']
 jawabanBenarCepat = 'Jawaban Anda benar!'
 jawabanBenarTidakCepat = 'Jawaban Anda benar namun Anda kurang cepat!'
@@ -68,17 +69,6 @@ for nomor in range(0, soal.__len__()):
     tempUser = []
     tempJawaban = []
     tempWaktu = []
-#    for j in players:
-#        namaUser = connection.recv(1024).decode()
-#        print(namaUser)
-#       temp =  namaUser.split()
-      #  jawabanUser = connection.recv(1024).decode()
-     #   print(jawabanUser)
-     #   selisihWaktu = connection.recv(1024).decode()
-      #  print(selisihWaktu)
-#        tempUser.append(temp[0])
-#        tempJawaban.append(temp[1])
-#        tempWaktu.append(temp[2])
     for x in players:
         _thread.start_new_thread(getAnswer, (x['connection'],))
     print('masuk')    

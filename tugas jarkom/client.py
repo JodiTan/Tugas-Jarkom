@@ -1,3 +1,6 @@
+# Nama : Jodi Tanato - 2017730037
+# Nama : Harry Senjaya Darmawan - 2017730067
+
 import socket
 import time
 import _thread
@@ -18,7 +21,7 @@ def myTimer():
     global flag
     if (flag):
         clientSocket.send((nama+' '+'-'+' '+str(100)).encode())
-        print('Timeout myTimer')
+        print('Timeout')
         hasil = clientSocket.recv(1024).decode()
         print(hasil+'\n')
 
@@ -30,11 +33,11 @@ while True:
     pertanyaan = clientSocket.recv(1024).decode()
     print(pertanyaan)
     waktuAwal = time.time()
-    while True:
-        if pertanyaan != '':
-            myThread = _thread.start_new_thread(myTimer, ())
-            break
-    if(pertanyaan != '')
+    if(pertanyaan != ''):
+        while True:
+            if pertanyaan != '':
+                myThread = _thread.start_new_thread(myTimer, ())
+                break
         jawaban = input('Masukkan Jawaban : ')
         waktuAkhir = time.time()
         waktuMenjawab = waktuAkhir - waktuAwal
@@ -43,8 +46,5 @@ while True:
             flag = bool(0)
             hasil = clientSocket.recv(1024).decode()
             print(hasil+'\n')
-        else:
-            print('Timeout')
     else:
-        break
-    
+        
